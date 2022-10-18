@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <pthread.h>
 
+
 enum reg_num_e
 {
 	reg_a = 7,
@@ -41,49 +42,48 @@ typedef struct gbmu_clock_s
 typedef struct sys_mem_s
 {
 	pthread_mutex_t	*mem_mut;
+	void	*mem;
 } sys_mem_t;
 
 typedef struct registers_s
 {
-
-	uint16_t PC;
-	uint16_t SP;
-
+	uint16_t pc;
+	uint16_t sp;
 	union
 	{
 		struct
 		{
-			uint8_t	B;
-			uint8_t C;
+			uint8_t	b;
+			uint8_t c;
 		};
-		uint16_t BC;
+		uint16_t bc;
 	};
 	union
 	{
 		struct
 		{
-			uint8_t	D;
-			uint8_t E;
+			uint8_t	d;
+			uint8_t e;
 		};
-		uint16_t DE;
+		uint16_t de;
 	};
 	union
 	{
 		struct
 		{
-			uint8_t	H;
-			uint8_t L;
+			uint8_t	h;
+			uint8_t l;
 		};
-		uint16_t HL;
+		uint16_t hl;
 	};
 	union
 	{
 		struct
 		{
-			uint8_t A;
-			uint8_t F;
+			uint8_t a;
+			uint8_t f;
 		};
-		uint16_t AF;
+		uint16_t af;
 	}; 
 } registers_t;
 
@@ -94,7 +94,7 @@ typedef struct  cpu_core_s
 	gbmu_clock_t	*sys_clock;
 } cpu_core_t;
 
-typedef void (* instruction_t)(cpu_core_t *core);
+typedef int (* instruction_t)(cpu_core_t *core);
 
 void	clock_generator(sys_mem_t *mem, gbmu_clock_t *sys);
 void	clock_divider(sys_mem_t *mem, gbmu_clock_t *sys_clock, gbmu_clock_t *divider);

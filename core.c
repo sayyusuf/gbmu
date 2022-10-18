@@ -5,19 +5,19 @@ int8_t *get_reg_addr(registers_t *reg, uint8_t num)
 	switch (num)
 	{
 		case reg_a:
-			return (&reg->A);
+			return (&reg->a);
 		case reg_b:
-			return (&reg->B);
+			return (&reg->b);
 		case reg_c:
-			return (&reg->C);
+			return (&reg->c);
 		case reg_d:
-			return (&reg->D);
+			return (&reg->d);
 		case reg_e:
-			return (&reg->E);
+			return (&reg->e);
 		case reg_h:
-			return (&reg->H);
+			return (&reg->h);
 		case reg_l:
-			return (&reg->L);
+			return (&reg->l);
 		default:
 			return (NULL);
 	}
@@ -29,13 +29,13 @@ int16_t *get_pair_dd_addr(registers_t *reg, uint8_t num)
 	switch (num >> 1)
 	{
 		case reg_a:
-			return (&reg->BC);
+			return (&reg->bc);
 		case reg_b:
-			return (&reg->DE);
+			return (&reg->de);
 		case reg_c:
-			return (&reg->HL);
+			return (&reg->hl);
 		case reg_d:
-			return (&reg->SP);
+			return (&reg->sp);
 		default:
 			return (NULL);
 	}
@@ -47,13 +47,13 @@ int16_t *get_pair_qq_addr(registers_t *reg, uint8_t num)
 	switch (num >> 1)
 	{
 		case reg_a:
-			return (&reg->BC);
+			return (&reg->bc);
 		case reg_b:
-			return (&reg->DE);
+			return (&reg->de);
 		case reg_c:
-			return (&reg->HL);
+			return (&reg->hl);
 		case reg_d:
-			return (&reg->AF);
+			return (&reg->af);
 		default:
 			return (NULL);
 	}
@@ -79,7 +79,7 @@ void core_loop(cpu_core_t *core)
 		cmd = (cmd_t){0};
 		if (look_interrupt(core))
 			continue ;
-		read_mem(core->mem, core->reg.PC, &cmd, 1);
-	decode_instruction(cmd)(core);
+		read_mem(core->mem, core->reg.pc, &cmd, 1);
+		core->reg.pc += decode_instruction(cmd)(core);
 	}
 }
