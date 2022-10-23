@@ -1,5 +1,10 @@
 #include <gbmu.h>
 
+int	isu00r(cpu_core_t *core)
+{
+
+}
+
 int8_t *get_reg_addr(registers_t *reg, uint8_t num)
 {
 	switch (num)
@@ -26,15 +31,15 @@ int8_t *get_reg_addr(registers_t *reg, uint8_t num)
 
 int16_t *get_pair_dd_addr(registers_t *reg, uint8_t num)
 {
-	switch (num >> 1)
+	switch (num)
 	{
-		case reg_a:
+		case (reg_a << 1):
 			return (&reg->bc);
-		case reg_b:
+		case (reg_b << 1):
 			return (&reg->de);
-		case reg_c:
+		case (reg_c << 1):
 			return (&reg->hl);
-		case reg_d:
+		case (reg_d << 1):
 			return (&reg->sp);
 		default:
 			return (NULL);
@@ -46,14 +51,32 @@ int16_t *get_pair_qq_addr(registers_t *reg, uint8_t num)
 {
 	switch (num >> 1)
 	{
-		case reg_a:
+		case (reg_a << 1):
 			return (&reg->bc);
-		case reg_b:
+		case (reg_b << 1):
 			return (&reg->de);
-		case reg_c:
+		case (reg_c << 1):
 			return (&reg->hl);
-		case reg_d:
+		case (reg_d << 1): 
 			return (&reg->af);
+		default:
+			return (NULL);
+	}
+	return (NULL);
+}
+
+int16_t *get_pair_ss_addr(registers_t *reg, uint8_t num)
+{
+	switch (num >> 1)
+	{
+		case ((reg_a << 1) | 1):
+			return (&reg->bc);
+		case ((reg_b << 1) | 1):
+			return (&reg->de);
+		case ((reg_c << 1) | 1):
+			return (&reg->hl);
+		case ((reg_d << 1) | 1): 
+			return (&reg->sp);
 		default:
 			return (NULL);
 	}
